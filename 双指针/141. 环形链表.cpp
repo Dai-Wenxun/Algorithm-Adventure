@@ -1,20 +1,15 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-    	if (head == nullptr || head->next == nullptr)
-			return false; 
-    	
-    	ListNode *p1 = head, *p2 = head->next;
+        ListNode *slow = head, *fast = head;
 		
-		while(1) {
-			for (int i = 0; i < 2; ++i) {
-				if (p2 == p1)
-					return true;
-				if (p2 == nullptr)
-					return false; 
-				p2 = p2->next;
-			}
-			p1 = p1->next;		
+		while(fast != nullptr && fast->next != nullptr) {
+			slow = slow->next;
+			fast = fast->next->next;	
+			if (slow == fast)
+				return true;
 		}
+		
+		return false;
     }
 };
