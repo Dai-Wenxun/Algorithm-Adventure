@@ -22,8 +22,24 @@ public:
 			p2 = p3;
 		}
 		
-		return head->next;
+		return head->next;	
+    }
+    
+	ListNode* reverseKGroup(ListNode* head, int k) {
+		ListNode *p1 = head, *p2 = head;
 		
+		for (int i = 0; i < k; ++i) {
+			if (p2 == NULL) {
+				return head;
+			} else {
+				p2 = p2->next;
+			}
+		}
+		
+		head = reverseN(head, k);
+		p1->next = reverseKGroup(p1->next, k);
+		
+		return head;
     }
 	
 	ListNode *successor;
