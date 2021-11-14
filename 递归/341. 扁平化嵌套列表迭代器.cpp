@@ -31,3 +31,32 @@ public:
 		}
 	}  
 };
+
+class NestedIterator {
+public:
+	list<NestedInteger> nums;
+    NestedIterator(vector<NestedInteger> &nestedList) {
+    	for (int i = 0; i < nestedList.size(); ++i) {
+    		nums.push_back(nestedList[i]);
+		}
+    }
+    
+    int next() {
+    	int num = nums.front().getInteger();
+    	nums.pop_front();
+        return num;
+    }
+    
+    bool hasNext() {
+        while(!nums.empty() && !nums.front().isInteger()) {
+        	auto first = nums.front().getList();
+            nums.pop_front(); 
+
+        	for (auto begin = first.rbegin(); begin != first.rend(); ++begin) {
+        		nums.push_front(*begin);
+			}
+		}
+		return !nums.empty();
+    }
+};
+
