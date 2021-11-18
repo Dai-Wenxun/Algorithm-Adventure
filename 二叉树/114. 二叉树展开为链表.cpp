@@ -1,7 +1,7 @@
 class Solution {
 public:
     void flatten(TreeNode* root) {
-		if (root ==  NULL)
+		if (root == NULL)
 			return ;
 		
 		flatten(root->left);
