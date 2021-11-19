@@ -2,7 +2,7 @@ class Solution {
 public:
 	TreeNode *front = NULL;
 	TreeNode *back = NULL;
-	TreeNode *pred = new TreeNode(0x80000000);
+	TreeNode *pred = NULL;
 	void recoverTree(TreeNode* root) {
 		inorder(root);
 		
@@ -17,7 +17,7 @@ public:
     		
     	inorder(root->left);
     	
-    	if (pred->val > root->val) {
+    	if (pred != NULL && pred->val > root->val) {
     		if (front == NULL)
     			front = pred;
 			back = root;
@@ -27,3 +27,42 @@ public:
     	inorder(root->right);
 	}
 };
+
+class Solution {
+public:
+    TreeNode *pred, *x, *y, *pre;
+    void recoverTree(TreeNode* root) {
+        while (root != NULL) {
+            if (root->left != NULL) {
+                pred = root->left;
+                while(pred->right != NULL && pred->right != root) {
+                    pred = pred->right;
+                }
+
+                if (pred->right == NULL) {
+                    pred->right = root;
+                    root = root->left;
+                } else {
+                    pred->right = NULL;
+                    if (pre != NULL && pre->val > root->val) {
+                        if (x == NULL)
+                            x = pre;
+                        y = root;
+                    }
+                    pre = root;
+                    root = root->right;
+                }
+            } else {
+                if (pre != NULL && pre->val > root->val) {
+                    if (x == NULL)
+                        x = pre;
+                    y = root;
+                }
+                pre = root;
+                root = root->right;
+            }
+        }
+        swap(x->val, y->val);
+    }
+};
+
