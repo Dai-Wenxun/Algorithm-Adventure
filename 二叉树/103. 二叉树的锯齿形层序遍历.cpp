@@ -1,6 +1,6 @@
 class Solution {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
 		vector<vector<int>> v;
 		if (root == NULL)
 			return v;
@@ -8,9 +8,11 @@ public:
 		queue<TreeNode *> q;
 		q.push(root);
 		TreeNode *cur_node;
+		bool leftflag = true;
 		while(!q.empty()) {
 			int size = q.size();
-			vector<int> nums;
+			deque<int> nums;
+
 			for (int i = 0; i < size; ++i) {
 				cur_node = q.front();
 				q.pop();
@@ -18,10 +20,13 @@ public:
 					q.push(cur_node->left);
 				if (cur_node->right != NULL)
 					q.push(cur_node->right);
-				
-				nums.push_back(cur_node->val);
+				if (leftflag)
+					nums.push_back(cur_node->val);
+				else
+					nums.push_front(cur_node->val);
 			}
-			v.push_back(nums);
+			leftflag = !leftflag;
+			v.push_back(vector<int>(nums.begin(), nums.end()));
 		}
 		return v;
 	}
