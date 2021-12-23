@@ -15,19 +15,41 @@ public:
     
     void traverse(vector<vector<int>>& graph, int cur) {
     	if (!res) return;
-    	
+
+    	queue<int> q;
+    	q.push(cur);
     	vtd[cur] = 1;
     	
-    	for (int v: graph[cur]) {
-    		if (!vtd[v]) {
-    			color[v] = !color[cur];
-    			traverse(graph, v);
-			} else {
-				if (color[cur] == color[v]) {
-					res = false;
-					return ;
-				}	
-			} 
+    	while (!q.empty()) {
+    		cur = q.front();
+    		q.pop();
+    		for (int v: graph[cur]) {
+    			if (!vtd[v]) {
+					vtd[cur] = 1;
+					color[v] = !color[cur];
+					q.push(v);
+				} else {
+					if (color[v] == color[cur]) {
+    					res = false;
+    					return ;
+					}
+				}
+			}
 		}
+    	
+    	
+//    	vtd[cur] = 1;
+//    	
+//    	for (int v: graph[cur]) {
+//    		if (!vtd[v]) {
+//    			color[v] = !color[cur];
+//    			traverse(graph, v);
+//			} else {
+//				if (color[cur] == color[v]) {
+//					res = false;
+//					return ;
+//				}	
+//			} 
+//		}
 	} 
 };
