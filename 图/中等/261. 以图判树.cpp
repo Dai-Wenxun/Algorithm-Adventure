@@ -51,4 +51,35 @@ public:
     }
 };
 
+class Solution1 {
+public:
+	vector<int> path;
+	vectro<int> vtd;
+	bool res = true;
+    bool validTree(int n, vector<pair<int, int>>& edges) {
+		vector<vector<int>> g(n, vector<int>());
+		for (auto& e: edges) {
+			g[e.first].push_back(e.second);
+			g[e.second].push_back(e.first); 
+		}
+		
+		for (int i = 0; i < n; ++i) {
+			if (!vtd[i])
+				dfs(g, i);
+		}
+    }
+    
+    void dfs(vector<vector<int>>& g, int cur) {
+    	if (path[cur]) 
+    		res = false;	
+    	if (vtd[cur] || !res) return ;
+    	
+    	vtd[cur] = 1;
+    	path[cur] = 1;
+    	for (int v: g[cur]) {
+    		dfs(g, v);
+		}
+		path[cur] = 0;
+	}
+};
 
