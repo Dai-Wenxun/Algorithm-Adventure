@@ -35,7 +35,7 @@ public:
     			int next_y = cur_y + d[i+1];
 				if (next_x < 0 || next_x >= m || next_y < 0 || next_y >= n)
 					continue;
-				int next_dist = max(abs(heights[next_x][next_y]-heights[][cur_xcur_y]), dists[cur_x * n + cur_y]);
+				int next_dist = max(abs(heights[next_x][next_y]-heights[cur_x][cur_y]), dists[cur_x * n + cur_y]);
 				if (next_dist < dists[next_x * n + next_y]) {
 					dists[next_x * n + next_y] = next_dist;
 					pq.emplace(next_dist, next_x * n + next_y);
