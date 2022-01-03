@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Node {
 public:
 	int key, val;
@@ -10,7 +7,7 @@ public:
 
 class LRUCache {
 public:
-	unordered_map<int, Node*> map;
+	vector<Node*> map{10001, NULL};
 	int capacity;
 	int size;
 	Node *head, *tail;
@@ -22,7 +19,7 @@ public:
     }
     
     int get(int key) {
-		if (!map.count(key))
+		if (!map[key])
 			return -1;
 		Node *node = map[key];
 		removeNode(node);
@@ -31,7 +28,7 @@ public:
     }
     
     void put(int key, int value) {
-		if (!map.count(key)) {
+		if (!map[key]) {
 			Node *node = new Node(key, value);
 			map[key] = node;
 			addToHead(node);
@@ -57,19 +54,8 @@ public:
     	size++; 
     	
     	if (size > capacity) {
-    		map.erase(tail->prev->key);
+    		map[tail->prev->key] = NULL;
     		removeNode(tail->prev);
 		}
 	}
 };
-
-int main() {
-	LRUCache lru(2);
-	lru.put(2, 1);
-	lru.put(2, 2);
-	cout << lru.get(2) << endl;
-	lru.put(1, 1);
-	lru.put(4, 1);
-	cout << lru.get(2) << endl;
-}
-
