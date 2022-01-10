@@ -1,22 +1,26 @@
 class Solution {
 public:
-    int minSwaps(vector<int>& nums) {
-        int cnt = accumulate(nums.begin(), nums.end(), 0);
-        if (cnt == nums.size() || cnt == 0 || cnt == 1) return 0;
+    int minSwaps(vector<int>& nums)
+    {
+        if (nums.size() <= 1) return 0;
 
-        int j = 0;
-        int window = 0;
-        int ans = nums.size();
-        for (int i = 0; i < nums.size(); i++) {
-            while (true) {
-                int x = (i > j) ? nums.size() + j : j;
-                if (x >= i + cnt) break;
-                window += nums[j];
-                j = (j + 1 == nums.size()) ? 0 : j + 1;
-            }
-            ans = min(ans, cnt - window);
-            window -= nums[i];
+        int onesum = 0;
+        for (auto num: nums)
+            if (num == 1)
+                onesum += 1;
+        int min = nums.size();
+
+        int zeronum_window = 0;
+        for (int i = 0; i < onesum; ++i)
+            if (nums[i] == 0)
+                zeronum_window += 1;
+            
+        for (int i = 1; i <= nums.size(); i++)
+        {
+            zeronum_window += (nums[(onesum + i - 1)%nums.size()] == 0); // 加入窗口右边的一个
+            zeronum_window -= (nums[i - 1] == 0);                 // 除去窗口左边的一个
+            min = zeronum_window < min ? zeronum_window : min;
         }
-        return ans;
+        return min;
     }
 };
