@@ -49,3 +49,33 @@ public:
 		return dp[sz1][sz2];
     }
 };
+
+
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+		int sz1 = word1.size();
+		int sz2 = word2.size();
+		
+		vector<int> dp(sz2+1, 0);
+
+		for (int i = 0; i <= sz2; ++i)
+			dp[i] = i;
+			
+		for (int i = 1; i <= sz1; ++i) {
+			dp[0] = i;
+			int pre = i-1;
+			for (int j = 1; j <= sz2; ++j) {
+				int tmp = dp[j];
+				if (word1[i-1] == word2[j-1]) {
+					dp[j] = pre;
+				} else {
+					dp[j] = min(min(dp[j], dp[j-1]), pre) + 1;
+				}
+				pre = tmp;
+			}
+
+		}
+		return dp[sz2];
+    }
+};
