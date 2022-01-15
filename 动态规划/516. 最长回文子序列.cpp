@@ -8,7 +8,6 @@ public:
 		for (int i = 0; i < sz; ++i)
 			dp[i][i] = 1;
 		
-		int maxlen = 1;
 		for (int l = 2; l <= sz; ++l) {
 			for (int i = 0; i <= sz-l; ++i) {
 				int j = l + i - 1;
@@ -49,5 +48,28 @@ public:
 			}
 		}
 		return dp[sz-1][sz-1];
+    }
+}; 
+
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+		int sz = s.size();
+		
+		vector<int> dp(sz, 1);
+		
+		for (int i = sz-2; i >= 0; --i) {
+			int pre = 0;
+			for (int j = i+1; j < sz; ++j) {
+				int temp = dp[j];
+				if (s[i] == s[j]) {
+					dp[j] = pre + 2;
+				} else {
+					dp[j] = max(dp[j], dp[j-1]);
+				}
+				pre = temp;
+			}
+		}
+		return dp[sz-1];
     }
 }; 
