@@ -7,24 +7,34 @@ public:
 		if (sz1 == 0) return sz2;
 		if (sz2 == 0) return sz1;
 		
-		vector<vector<int>> dp(sz1, vector<int>(sz2, 0));
+		vector<int> dp(sz2, 0);
 		
-		for (int i = 0; i < sz1; ++i)
-			if (word1[i] == word2[0] || (i > 0 && dp[i-1][0]))
-				dp[i][0] = 1;
 		for (int j = 0; j < sz2; ++j)
-			if (word1[0] == word2[j] || (j > 0 && dp[0][j-1]))
-				dp[0][j] = 1;		
+			if (word1[0] == word2[j] || (j > 0 && dp[j-1]))
+				dp[j] = 1;		
 		
+		int left = dp[0]; 
 		for (int i = 1; i < sz1; ++i) {
+			int pre = dp[0];
+			if (word1[i] == word2[0] || dp[0])
+				dp[0] = 1;
+			else
+				dp[0] = 0;
+			
+			left = dp[0];
+			
 			for (int j = 1; j < sz2; ++j) {
+				int tmp = dp[j];
+				
 				if (word1[i] == word2[j]) {
-					dp[i][j]  = dp[i-1][j-1] + 1;
+					dp[j]  = pre + 1;
 				} else {
-					dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
-				}	
+					dp[j] = max(dp[j], left);
+				}
+				left = dp[j];
+				pre = tmp;	
 			}
 		}		
-		return sz1 + sz2 - 2 * dp[sz1-1][sz2-1];
+		return sz1 + sz2 - 2 * dp[sz2-1];
     }
 };
