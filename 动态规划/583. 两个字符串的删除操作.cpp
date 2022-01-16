@@ -18,11 +18,8 @@ public:
 			int pre = dp[0];
 			if (word1[i] == word2[0] || dp[0])
 				dp[0] = 1;
-			else
-				dp[0] = 0;
 			
-			left = dp[0];
-			
+			int left = dp[0];
 			for (int j = 1; j < sz2; ++j) {
 				int tmp = dp[j];
 				
