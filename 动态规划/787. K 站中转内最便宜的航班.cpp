@@ -64,8 +64,6 @@ public:
 	}
 };
 
-
-
 class Solution {
 public:
 	
@@ -84,3 +82,20 @@ public:
     }
 };
 
+class Solution {
+public:
+	static constexpr int INF = 1000007;
+	
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+		vector<vector<int>> dp(n, vector<int>(2, INF));
+		dp[dst][0] = 0;
+		int res = INF;
+		for (int i = 1; i <= k+1; ++i) {
+			for (auto& f: flights) {
+				dp[f[0]][k&1] = min(dp[f[1]][(k-1)&1] + f[2], dp[f[0]][k&1]);
+			}	
+			res = min(res, dp[src][k&1]);
+		}
+		return res == INF ? -1 : res;
+    }
+};
