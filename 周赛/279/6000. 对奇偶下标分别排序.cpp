@@ -2,8 +2,8 @@
 #define fi first
 #define se second
 #define mp make_pair
-typedef pair<int, int> PII;
-typedef long long LL;
+#define pii pair<int,int>
+#define ll long long
 
 class Solution {
 public:

@@ -2,8 +2,8 @@
 #define fi first
 #define se second
 #define mp make_pair
-typedef pair<int, int> pii;
-typedef long long ll;
+#define pii pair<int,int>
+#define ll long long
 
 class Bitset {
 public:
