@@ -12,7 +12,7 @@ public:
 	int b[2],nowsiz,now;
     Bitset(int size) {
 		nowsiz=size;now=0;
-		for (int i=1;i<=size;i++) a[i]=0;
+		for (int i = 1; i <= size; i++) a[i]=0;
 		b[0]=size;
 		b[1]=0;
     }
@@ -33,7 +33,7 @@ public:
     
     void flip() {now^=1,swap(b[0],b[1]);}
     
-    bool all() {return b[1]==nowsiz;}
+    bool all() {return b[1] == nowsiz;}
     
     bool one() {return !!b[1];}
     
@@ -41,7 +41,7 @@ public:
     
     string toString() {
 		string s;
-		for (int i = 1; i <= nowsiz; i++)if((a[i]^now)==1)s+='1'; else s+='0';
+		for (int i = 1; i <= nowsiz; i++) if ((a[i]^now) == 1) s += '1'; else s += '0';
 		return s;
     }
 };
