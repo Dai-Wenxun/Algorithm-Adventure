@@ -63,3 +63,42 @@ public:
 # 二分：
 
 ### 4. 寻找两个正序数组的中位数
+
+![](./images/4.png)
+
+思路：利用二分寻找第K小的数，始终保持递归函数中nums1数组长度最长以避免不必要的边界情况讨论。
+
+```c++
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+		int m = SZ(nums1), n = SZ(nums2);
+		if ((m + n) & 1)
+			return searchK(nums1, 0, nums2, 0, (m + n + 1) >> 1);
+		else {
+			int l = searchK(nums1, 0, nums2, 0, (m + n + 1) >> 1);
+			int r = searchK(nums1, 0, nums2, 0, (m + n + 2) >> 1);
+			return (l + r) / 2.0;
+		}
+		return -1;
+    }
+    
+    int searchK(vector<int>& nums1, int s1, vector<int>& nums2, int s2, int k) {
+    	int len1 = SZ(nums1) - s1;
+    	int len2 = SZ(nums2) - s2;
+    	
+    	if (len1 < len2) return searchK(nums2, s2, nums1, s1, k);
+		if (len2 == 0) return nums1[s1 + k - 1];
+		if (k == 1) return min(nums2[s2], nums1[s1]);
+    	
+    	int i = s1 + min(len1, k >> 1) - 1;
+    	int j = s2 + min(len2, k >> 1) - 1;
+    	if (nums1[i] > nums2[j]) {
+    		return searchK(nums1, s1, nums2, j+1, k - (j - s2 + 1));
+		} else {
+			return searchK(nums1, i+1, nums2, s2, k - (i - s1 + 1));
+		}
+	}
+};
+```
+
