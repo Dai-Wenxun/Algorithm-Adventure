@@ -102,3 +102,28 @@ public:
 };
 ```
 
+# 贪心：
+
+### 11. 盛最多水的容器
+
+![](./images/11.png)
+
+思路：双指针+贪心，$S(i,j)=min(h[i], h[j])\times(j-i)$
+
+```c++
+class Solution {
+public:
+    int maxArea(vector<int>& h) {
+		int sz = SZ(h);
+		int mx = INT_MIN;
+		int i = 0, j = sz - 1;
+		while (i < j) {
+			mx = max(mx, (i - j) * min(h[i], h[j]));
+			if (h[i] < h[j]) i++;
+			else j--;
+		}
+		return mx;
+    }
+};
+```
+
