@@ -27,7 +27,40 @@ public:
 
 # 双指针：
 
+### 15. 三数之和
 
+![](./images/15.png)
+
+思路：先排序，使用三个指针 `i`、`j` 和 `k` 分别代表要找的三个数，初始时令`j=i+1`，`k=n-1`，`sum=nums[i]+nums[j]+nums[k]`，固定`i`，移动`j`、`k`使得`sum=0`。
+
+```c++
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+		vector<vector<int>> res;
+		sort(nums.begin(), nums.end());
+		int sz = SZ(nums);
+		rep(i, 0, sz-1) {
+			while (i > 0 && i < sz && nums[i] == nums[i-1]) ++i;
+			int j = i + 1, k = sz - 1;
+			while (j < k) {
+				while (j > i + 1 && j < k && nums[j] == nums[j-1]) ++j;
+				if (j >= k) break;
+				int sum = nums[i] + nums[j] + nums[k];
+				if (sum == 0) {
+					res.pb({nums[i], nums[j], nums[k]});
+					++j;
+				} else if (sum < 0) {
+					++j;
+				} else {
+					--k;
+				}
+			}
+		} 
+		return res;
+    }
+};
+```
 
 # 滑动窗口：
 
@@ -35,7 +68,7 @@ public:
 
 ![](./images/3.png)
 
-思路：利用桶记录冲突字符index，避免遍历查找
+思路：利用桶记录冲突字符`index`，避免遍历查找。
 
 ```c++
 class Solution {
@@ -66,7 +99,7 @@ public:
 
 ![](./images/4.png)
 
-思路：利用二分寻找第K小的数，始终保持递归函数中nums1数组长度最长以避免不必要的边界情况讨论。
+思路：利用二分寻找第`K`小的数，始终保持递归函数中`nums1`数组长度最长以避免不必要的边界情况讨论。
 
 ```c++
 class Solution {
