@@ -31,7 +31,7 @@ public:
 
 ![](./images/15.png)
 
-思路：先排序，使用三个指针 `i`、`j` 和 `k` 分别代表要找的三个数，初始时令`j=i+1`，`k=n-1`，`sum=nums[i]+nums[j]+nums[k]`，固定`i`，移动`j`、`k`使得`sum=0`。
+思路：先排序，使用三个指针 `i`、`j` 和 `k` 分别代表要找的三个数，枚举`i`，令`j=i+1`，`k=n-1`，`sum=nums[i]+nums[j]+nums[k]`，移动`j`、`k`使得`sum==0`。**注意`sum==0`时的去重操作**。
 
 ```c++
 class Solution {
@@ -44,19 +44,20 @@ public:
 			while (i > 0 && i < sz && nums[i] == nums[i-1]) ++i;
 			int j = i + 1, k = sz - 1;
 			while (j < k) {
-				while (j > i + 1 && j < k && nums[j] == nums[j-1]) ++j;
-				if (j >= k) break;
 				int sum = nums[i] + nums[j] + nums[k];
 				if (sum == 0) {
 					res.pb({nums[i], nums[j], nums[k]});
 					++j;
+					--k;
+					while (j < k && nums[j] == nums[j-1]) ++j;
+					while (j < k && nums[k] == nums[k+1]) --k; 
 				} else if (sum < 0) {
 					++j;
 				} else {
 					--k;
 				}
 			}
-		} 
+		}
 		return res;
     }
 };
@@ -156,6 +157,33 @@ public:
 			else j--;
 		}
 		return mx;
+    }
+};
+```
+
+# 树的搜索：
+
+### 74. 搜索二维矩阵
+
+![](./images/74.png)
+
+思路：（1）以右上角元素作为二叉搜索树的根。（2）二分查找。
+
+```c++
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& mt, int tgt) {
+		int m = SZ(mt), n = SZ(mt[0]);
+		int x = 0, y = n - 1;
+		auto chk = [m, n](int i, int j) {
+			return i >= 0 && i < m && j >= 0 && j < n;
+		};
+		while (chk(x, y)) {
+			if (mt[x][y] < tgt) ++x;
+			else if (mt[x][y] > tgt) --y;
+			else return true;
+		}
+		return false;
     }
 };
 ```
