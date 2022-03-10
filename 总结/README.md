@@ -1,5 +1,9 @@
 [TOC]
 
+
+
+**注意点一：考虑数据规模为0或1的情况**
+
 # 模拟：
 
 ### 1. 两数之和
@@ -24,6 +28,41 @@ public:
     }
 };
 ```
+
+### 2. 两数相加
+
+![](./images/2.png)
+
+思路：虚拟头节点。
+
+```c++
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* h1, ListNode* h2) {
+		ListNode* head = new ListNode();
+		ListNode* p = head;
+		int carry = 0;
+		
+		while (h1 != nullptr || h2 != nullptr) {
+			int cur = 0;
+			if (h1 != nullptr) cur += h1->val; 
+			if (h2 != nullptr) cur += h2->val;
+			cur += carry;
+			carry = cur / 10;
+			cur = cur % 10;
+			p->next = new ListNode(cur);
+			p = p->next;
+			
+			if (h1 != nullptr) h1 = h1->next;
+			if (h2 != nullptr) h2 = h2->next; 
+		}
+		if (carry == 1) p->next = new ListNode(1);
+		return head->next;
+    }
+};
+```
+
+
 
 # 双指针：
 
@@ -185,6 +224,52 @@ public:
 		}
 		return false;
     }
+};
+```
+
+### 45. 跳跃游戏 II
+
+![](./images/45.png)
+
+```c++
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int maxPos = 0, n = nums.size(), end = 0, step = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            maxPos = max(maxPos, i + nums[i]);
+            if (i == end) {
+                end = maxPos;	
+                ++step;
+            }
+        }
+        return step;
+    }
+};
+```
+
+# 回溯：
+
+### 17. 电话号码的字母组合
+
+![](./images/17.png)
+
+思路：回溯+桶。
+
+```c++
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+		if (digits.size() == 0) return {};
+		vector<string> res;
+		vector<string> mp({"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"});
+		backtrack(res, digits, mp, 0, "");
+		return res; 
+    }
+    void backtrack(vector<string>& res, string& ds, vector<string>& mp, int cur_idx, string now) {
+    	if (cur_idx == ds.size()) {res.pb(now); return ;}
+		for (auto c: mp[ds[cur_idx] - '2']) backtrack(res, ds, mp, cur_idx+1, now+c);
+	}
 };
 ```
 
