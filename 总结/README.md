@@ -254,8 +254,6 @@ public:
 
 ![](./images/17.png)
 
-思路：回溯+桶。
-
 ```c++
 class Solution {
 public:
@@ -267,6 +265,7 @@ public:
 		backtrack(digits, 0);
 		return res; 
     }
+    
     void backtrack(string& ds, int cur) {
     	if (cur == SZ(ds)) {res.pb(t); return ;}
 		for (auto c: mp[ds[cur] - '2']) {
@@ -274,6 +273,30 @@ public:
             backtrack(ds, cur+1);
             t.pop_back();
         }
+	}
+};
+```
+
+### 78. 子集
+
+![](./images/78.png)
+
+```c++
+class Solution {
+public:
+	vector<int> t;
+    vector<vector<int>> res;
+	vector<vector<int>> subsets(vector<int>& nums) {
+		backtrack(0, nums);
+		return res;
+    }
+    
+    void backtrack(int cur, vector<int>& nums) {
+    	if (cur == SZ(nums)) {res.pb(t); return ;}
+		t.pb(nums[cur]);
+		backtrack(cur+1, nums); 
+		t.pop_back();
+		backtrack(cur+1, nums);
 	}
 };
 ```
