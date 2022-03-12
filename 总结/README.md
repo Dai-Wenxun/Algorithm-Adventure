@@ -259,16 +259,21 @@ public:
 ```c++
 class Solution {
 public:
+    vector<string> res;
+    vector<string> mp{"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    string t;
     vector<string> letterCombinations(string digits) {
-		if (digits.size() == 0) return {};
-		vector<string> res;
-		vector<string> mp({"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"});
-		backtrack(res, digits, mp, 0, "");
+		if (SZ(digits) == 0) return {};
+		backtrack(digits, 0);
 		return res; 
     }
-    void backtrack(vector<string>& res, string& ds, vector<string>& mp, int cur_idx, string now) {
-    	if (cur_idx == ds.size()) {res.pb(now); return ;}
-		for (auto c: mp[ds[cur_idx] - '2']) backtrack(res, ds, mp, cur_idx+1, now+c);
+    void backtrack(string& ds, int cur) {
+    	if (cur == SZ(ds)) {res.pb(t); return ;}
+		for (auto c: mp[ds[cur] - '2']) {
+            t.pb(c);
+            backtrack(ds, cur+1);
+            t.pop_back();
+        }
 	}
 };
 ```
