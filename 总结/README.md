@@ -301,3 +301,34 @@ public:
 };
 ```
 
+### 90. 子集 II
+
+![](./images/90.png)
+
+思路：去重方法（1）剪枝（2）Set
+
+```c++
+class Solution {
+public:
+	vector<int> t;
+    vector<vector<int>> res;
+	vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+		sort(nums.begin(), nums.end());
+		backtrack(false, 0, nums);
+		return res;
+    }
+    
+    void backtrack(bool chosen, int cur, vector<int>& nums) {
+    	if (cur == SZ(nums)) {res.pb(t); return ;}
+    	t.pb(nums[cur]);
+    	backtrack(true, cur+1, nums); 
+    	t.pop_back();
+    	if (chosen && nums[cur] == nums[cur - 1]) {
+			return ;
+		} else {
+			backtrack(false, cur+1, nums);
+		}
+	}
+};
+```
+
