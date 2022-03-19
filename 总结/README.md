@@ -62,8 +62,6 @@ public:
 };
 ```
 
-
-
 # 双指针：
 
 ### 15. 三数之和
@@ -329,6 +327,71 @@ public:
 			backtrack(false, cur+1, nums);
 		}
 	}
+};
+```
+
+# BFS：
+
+### 297. 二叉树的序列化与反序列化
+
+```c++
+class Codec {
+public:
+	string serialize(TreeNode* root) {
+        string res;
+        queue<TreeNode*> q;
+        q.push(root);
+        TreeNode* cur;
+        while (!q.empty()) {
+        	cur = q.front(); q.pop();
+        	if (cur == nullptr) {
+        		res += "#,";
+			} else {
+				res += to_string(cur->val) + ',';
+				q.push(cur->left);
+				q.push(cur->right);
+			}
+		}
+		return res;
+    }
+	
+	TreeNode* deserialize(string data) {        
+        vector<string> v;
+        string tmp;
+        for (auto c: data) {
+        	if (c == ',') {
+        		v.pb(tmp);
+				tmp.clear(); 
+			} else {
+				tmp += c;
+			}
+		}
+        if (v[0] == "#") return nullptr;
+        
+        queue<TreeNode*> q;
+        int i = 0;
+		TreeNode* root = new TreeNode(stoi(v[i++]));
+		q.push(root);
+        TreeNode* cur;
+		while (!q.empty()) {
+			cur = q.front(); q.pop();
+			if (v[i] != "#") {
+				cur->left = new TreeNode(stoi(v[i]));
+				q.push(cur->left);
+			} else {
+				cur->left = nullptr;
+			}
+			++i;
+			if (v[i] != "#") {
+				cur->right = new TreeNode(stoi(v[i]));
+				q.push(cur->right);
+			} else {
+				cur->right = nullptr;
+			}
+			++i;
+		}
+		return root;
+    }
 };
 ```
 
