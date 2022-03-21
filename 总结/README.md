@@ -395,3 +395,42 @@ public:
 };
 ```
 
+# 二进制枚举：
+
+### 2212. 射箭比赛中的最大得分
+
+![](./images/2212.png)
+
+```c++
+class Solution {
+public:
+    vector<int> maximumBobPoints(int n, vector<int>& a) {
+		int k = 12;
+		int mx = 0;
+		vector<int> res;
+		rep(i, 0, (1 << k) - 1) {
+        	int score = 0;
+        	int cur_sum = 0;
+			vector<int> tmp(k);
+        	
+        	rep(j, 0, k-1) {
+        		if ((i >> j) & 1) {
+        			cur_sum += a[j] + 1;
+        			score += j;
+        			tmp[j] = a[j] + 1;
+				}
+			}
+        	
+        	if (cur_sum > n) continue;
+        	
+        	if (score > mx) {
+        		tmp[0] += n - cur_sum;
+        		res = tmp;
+        		mx = score;
+			}
+		}
+		return res;
+    }
+};
+```
+
