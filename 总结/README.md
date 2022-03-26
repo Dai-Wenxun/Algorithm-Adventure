@@ -395,6 +395,59 @@ public:
 };
 ```
 
+# DFS：
+
+### 1239. 串联字符串的最大长度【中等】
+
+![](./images/1239.png)
+
+思路：`__builtin_popcount`函数。
+
+```c++
+class Solution {
+public:
+    int mx = 0;
+    int maxLength(vector<string>& arr) {
+        int sz_arr = SZ(arr);
+        vector<int> f;
+        rep(i, 0, sz_arr - 1) {
+            string tmp = arr[i];
+            int mask = 0;
+            int sz_str = SZ(tmp);
+            bool ok = true;
+            rep(j, 0, sz_str - 1) {
+                if (mask & (1 << (tmp[j] - 'a'))) {
+                    ok = !ok;
+                    break;
+                } else {
+                    mask |= 1 << (tmp[j] - 'a');
+                }
+            }
+            if (ok) f.pb(mask);
+        }
+        dfs(f, 0, 0);
+        return mx;
+    }
+
+    void dfs(vector<int>& f, int idx, int up) {
+        if (idx == f.size()) {
+            mx = max(__builtin_popcount(up), mx);
+            return;
+        }
+
+        int cur = f[idx];
+        if (cur & up) {
+            mx = max(__builtin_popcount(up), mx);
+        } else {
+            dfs(f, idx+1, up | cur);
+        }
+        dfs(f, idx+1, up);
+    }
+};
+```
+
+
+
 # 二进制枚举：
 
 ### 2212. 射箭比赛中的最大得分【中等】
