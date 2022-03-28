@@ -23,35 +23,3 @@ public:
 };
 
 
-class Solution {
-public:
-    string longestPalindrome(string s) {
-    	int sz = s.size();
-    	
-    	vector<vector<int>> dp(sz, vector<int>(sz, 0));
-    	
-    	int begin = 0, maxlen = 1;
-    	for (int i = 0; i < sz; ++i)
-    		dp[i][i] = 1;
-    	
-		for (int l = 2; l <= sz; ++l) {
-			for (int i = 0 ; i <= sz-l; ++i) {	
-				int j = l + i - 1;
-				
-				if (s[i] == s[j]) {
-					if (dp[i+1][j-1] || j - i < 3)	
-						dp[i][j] = 1;
-						
-					if (dp[i][j] && j - i + 1> maxlen) {
-						begin = i;
-						maxlen = j - i + 1;
-					}
-				} else
-					dp[i][j] = 0;
-			}
-		}
-		
-		return s.substr(begin, maxlen);
-    }
-};
-

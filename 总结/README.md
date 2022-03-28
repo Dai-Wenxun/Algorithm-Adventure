@@ -446,8 +446,6 @@ public:
 };
 ```
 
-
-
 # 二进制枚举：
 
 ### 2212. 射箭比赛中的最大得分【中等】
@@ -483,6 +481,38 @@ public:
 			}
 		}
 		return res;
+    }
+};
+```
+
+# 动态规划：
+
+### 5. 最长回文子串【中等】
+
+![](./images/5.png)
+
+思路：（1）`dp[i][j] = s[i] == s[j] && (i + 1 == j || dp[i+1][j-1])`（2）斜序遍历
+
+```c++
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int sz = SZ(s);
+        vector<vector<bool>> dp(sz, vector<bool>(sz));
+        rep(i, 0, sz - 1) dp[i][i] = true;
+
+        int mx = 1, start = 0;
+        rep(l, 2, sz) {
+            rep(i, 0, sz-l) {
+                int j = l + i - 1;
+                dp[i][j] = s[i] == s[j] && (i + 1 == j || dp[i+1][j-1]);
+                if (dp[i][j] && j - i + 1 > mx) {
+                    mx = j - i + 1;
+                    start = i;
+                }
+            }
+        }
+        return s.substr(start, mx);
     }
 };
 ```
