@@ -62,6 +62,31 @@ public:
 };
 ```
 
+### 6. Z 字形变换【中等】
+
+![](./images/6.png)
+
+```c++
+class Solution {
+public:
+    string convert(string s, int n) {
+        if (n == 1 || n >= s.size()) return s;
+        vector<string> v(n);
+        int sz = SZ(s);
+        int flag = 1;
+        int i = 0;
+        rep(k, 0, sz - 1) {
+            v[i] += s[k];
+            i += flag;
+            if (i == n - 1 || i == 0) flag = -flag;
+        }
+        string res;
+        for (auto& str: v) res += str;
+        return res;
+    }
+};
+```
+
 # 双指针：
 
 ### 15. 三数之和【中等】
