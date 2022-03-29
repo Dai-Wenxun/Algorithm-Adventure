@@ -87,6 +87,28 @@ public:
 };
 ```
 
+### 7. 整数反转【中等】
+
+![](./images/7.png)
+
+思路：提前判断下一个`res`是否超过表示范围即`res > INT_MAX / 10 || res < INT_MIN / 10`。
+
+```c++
+class Solution {
+public:
+    int reverse(int x) {
+        int res = 0;
+        while (x != 0) {
+            int tmp = x % 10;
+            if (res > INT_MAX / 10 || res < INT_MIN / 10) return 0;
+            res = res * 10 + tmp;
+            x /= 10;
+        }
+        return res;
+    }
+};
+```
+
 # 双指针：
 
 ### 15. 三数之和【中等】
