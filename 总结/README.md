@@ -109,6 +109,46 @@ public:
 };
 ```
 
+### 8. 字符串转换整数 (atoi)【中等】
+
+![](./images/8.png)
+
+思路：**一步一步遵循所给算法，不要想当然！**
+
+```c++
+class Solution {
+public:
+    int myAtoi(string s) {
+        int sz = SZ(s);
+        int res = 0;
+        int index = 0;
+        int sign = 1;
+        while (s[index] == ' ' && index < sz) index++;
+        if (index == sz) return 0;
+
+        if (s[index] == '+') {
+            ++index;
+        } else if (s[index] == '-') {
+            sign = -sign;
+            ++index;
+        }
+
+        res = res * sign;
+        while (index < sz) {
+            if (s[index] < '0' || s[index] > '9') break;
+            else if (res > INT_MAX / 10 || res < INT_MIN / 10) return sign == 1 ? INT_MAX : INT_MIN;
+            else if (res == INT_MAX / 10 || res == INT_MIN / 10) {
+                if (sign == 1 && (s[index] - '0') > 7) return INT_MAX;
+                if (sign == -1 && (s[index] - '0') > 8) return INT_MIN;
+            }
+            res = res * 10 + (s[index] - '0') * sign;
+            ++index;
+        }
+        return res;
+    }
+};
+```
+
 # 双指针：
 
 ### 15. 三数之和【中等】
