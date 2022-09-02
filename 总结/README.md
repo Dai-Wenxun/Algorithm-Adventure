@@ -149,6 +149,28 @@ public:
 };
 ```
 
+### 9. 回文数【简单】
+
+![](./images/9.png)
+
+```c++
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0) return false;
+        int xx = x;
+        int res = 0;
+        while (xx != 0) {
+            int tmp = xx % 10;
+            if (res > INT_MAX / 10) return false;
+            res = res * 10 + tmp;
+            xx /= 10;
+        }
+        return res == x;
+    }
+};
+```
+
 # 双指针：
 
 ### 15. 三数之和【中等】
